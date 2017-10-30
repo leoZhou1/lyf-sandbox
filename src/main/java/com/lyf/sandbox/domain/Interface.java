@@ -11,17 +11,21 @@ public class Interface {
 
     private Date createDate;
 
-    private Byte isDeleted;
+    private Integer isDeleted;
 
     private Long projectId;
 
     private Long interfaceCateId;
 
-    private Boolean canInvokeProductenv;
+    private Integer canInvokeProductenv;
 
     private String headerParams;
 
-    private Boolean httpMethod;
+    private Integer httpMethod;
+
+    private String params;
+
+    private String returnParams;
 
     public Long getId() {
         return id;
@@ -55,13 +59,6 @@ public class Interface {
         this.createDate = createDate;
     }
 
-    public Byte getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(Byte isDeleted) {
-        this.isDeleted = isDeleted;
-    }
 
     public Long getProjectId() {
         return projectId;
@@ -79,13 +76,6 @@ public class Interface {
         this.interfaceCateId = interfaceCateId;
     }
 
-    public Boolean getCanInvokeProductenv() {
-        return canInvokeProductenv;
-    }
-
-    public void setCanInvokeProductenv(Boolean canInvokeProductenv) {
-        this.canInvokeProductenv = canInvokeProductenv;
-    }
 
     public String getHeaderParams() {
         return headerParams;
@@ -95,11 +85,61 @@ public class Interface {
         this.headerParams = headerParams == null ? null : headerParams.trim();
     }
 
-    public Boolean getHttpMethod() {
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Integer getCanInvokeProductenv() {
+        return canInvokeProductenv;
+    }
+
+    public void setCanInvokeProductenv(Integer canInvokeProductenv) {
+        this.canInvokeProductenv = canInvokeProductenv;
+    }
+
+    public Integer getHttpMethod() {
         return httpMethod;
     }
 
-    public void setHttpMethod(Boolean httpMethod) {
+    public void setHttpMethod(Integer httpMethod) {
         this.httpMethod = httpMethod;
+    }
+
+    public String getParams() {
+        return params;
+    }
+
+    public void setParams(String params) {
+        this.params = params;
+    }
+
+    public String getReturnParams() {
+        return returnParams;
+    }
+
+    public void setReturnParams(String returnParams) {
+        this.returnParams = returnParams;
+    }
+
+    @Override
+    public String toString() {
+        return "Interface{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", interfaceUrl='" + interfaceUrl + '\'' +
+                ", createDate=" + createDate +
+                ", isDeleted=" + isDeleted +
+                ", projectId=" + projectId +
+                ", interfaceCateId=" + interfaceCateId +
+                ", canInvokeProductenv=" + canInvokeProductenv +
+                ", headerParams='" + headerParams + '\'' +
+                ", httpMethod=" + httpMethod +
+                ", params='" + params + '\'' +
+                ", returnParams='" + returnParams + '\'' +
+                '}';
     }
 }

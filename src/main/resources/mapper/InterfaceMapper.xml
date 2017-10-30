@@ -6,12 +6,14 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="interface_url" jdbcType="VARCHAR" property="interfaceUrl" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="is_deleted" property="isDeleted" />
     <result column="project_id" jdbcType="BIGINT" property="projectId" />
     <result column="interface_cate_id" jdbcType="BIGINT" property="interfaceCateId" />
-    <result column="can_invoke_productenv" jdbcType="BIT" property="canInvokeProductenv" />
+    <result column="can_invoke_productenv" property="canInvokeProductenv" />
     <result column="header_params" jdbcType="VARCHAR" property="headerParams" />
-    <result column="http_method" jdbcType="BIT" property="httpMethod" />
+    <result column="http_method" property="httpMethod" />
+    <result column="params" jdbcType="LONGVARCHAR" property="params" />
+    <result column="return_params" jdbcType="LONGVARCHAR" property="returnParams" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lyf.sandbox.domain.InterfaceWithBLOBs">
     <result column="params" jdbcType="LONGVARCHAR" property="params" />
@@ -24,7 +26,7 @@
   <sql id="Blob_Column_List">
     params, return_params
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     ,
@@ -32,7 +34,7 @@
     from interface
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectAllInterface" resultMap="ResultMapWithBLOBs">
+  <select id="selectAllInterface" resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />
     ,
@@ -51,9 +53,9 @@
       http_method, params, return_params
       )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{interfaceUrl,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=TINYINT}, #{projectId,jdbcType=BIGINT}, 
-      #{interfaceCateId,jdbcType=BIGINT}, #{canInvokeProductenv,jdbcType=BIT}, #{headerParams,jdbcType=VARCHAR}, 
-      #{httpMethod,jdbcType=BIT}, #{params,jdbcType=LONGVARCHAR}, #{returnParams,jdbcType=LONGVARCHAR}
+      #{createDate,jdbcType=TIMESTAMP}, #{isDeleted}, #{projectId,jdbcType=BIGINT},
+      #{interfaceCateId,jdbcType=BIGINT}, #{canInvokeProductenv}, #{headerParams,jdbcType=VARCHAR},
+      #{httpMethod}, #{params,jdbcType=LONGVARCHAR}, #{returnParams,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.lyf.sandbox.domain.InterfaceWithBLOBs">

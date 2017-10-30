@@ -27,7 +27,7 @@
         }
 
         .ipt-args span {
-            display: block;t
+            display: block;
             float: left;
             margin: 2px;
             width: 400px
@@ -91,7 +91,7 @@
 <h1 style="text-align:center;">服务端API单元测试-沙盒系统</h1>
 <form action="${request.contextPath}/api" target="unitarget" method="POST">
 	<input type="hidden" value="POST" name="httpMethodType"/>
-    <h2>系统级参数(cart.add)：</h2>
+    <h2>系统级参数：</h2>
     <ul>
         <li class="ipt-args clearfix">
             <span class="key">method: </span>

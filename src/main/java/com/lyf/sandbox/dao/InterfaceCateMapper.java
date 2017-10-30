@@ -2,6 +2,8 @@ package com.lyf.sandbox.dao;
 
 import com.lyf.sandbox.domain.InterfaceCate;
 
+import java.util.List;
+
 public interface InterfaceCateMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -10,6 +12,8 @@ public interface InterfaceCateMapper {
     int insertSelective(InterfaceCate record);
 
     InterfaceCate selectByPrimaryKey(Long id);
+
+    List<InterfaceCate> selectByProjectId(Long projectId);
 
     int updateByPrimaryKeySelective(InterfaceCate record);
 

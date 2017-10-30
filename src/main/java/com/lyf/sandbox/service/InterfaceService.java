@@ -1,11 +1,12 @@
 package com.lyf.sandbox.service;
 
-import java.util.List;
+import com.lyf.sandbox.domain.Interface;
 
-import com.lyf.sandbox.domain.InterfaceWithBLOBs;
+import java.util.List;
 
 public interface InterfaceService {
 
-	List<InterfaceWithBLOBs> selectAllInterface();
-	public InterfaceWithBLOBs getInterfaceById(Long id);
+	List<Interface> selectAllInterface();
+	public Interface getInterfaceById(Long id);
+	public void addInterface (Interface inter);
 }

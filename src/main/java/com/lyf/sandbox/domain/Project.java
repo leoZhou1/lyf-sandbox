@@ -1,6 +1,7 @@
 package com.lyf.sandbox.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Project {
     private Long id;
@@ -10,6 +11,8 @@ public class Project {
     private Date createDate;
 
     private Boolean isDeleted;
+    /** 分类集合 */
+    private List<InterfaceCate> interfaceCateList;
 
     public Long getId() {
         return id;

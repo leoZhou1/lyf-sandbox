@@ -7,15 +7,41 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
+
+  <resultMap id="DetailResultMap" type="com.lyf.sandbox.domain.Project" extends="BaseResultMap">
+      <collection property="interfaceCateList" ofType="com.lyf.sandbox.domain.InterfaceCate" >
+          <id column="cate_id" jdbcType="BIGINT" property="id" />
+          <result column="project_id" jdbcType="BIGINT" property="projectId" />
+          <result column="cate_name" jdbcType="VARCHAR" property="name" />
+          <result column="cate_create_date" jdbcType="TIMESTAMP" property="createDate" />
+          <result column="cate_is_deleted" jdbcType="BIT" property="isDeleted" />
+      </collection>
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, name, create_date, is_deleted
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from project
-    where id = #{id,jdbcType=BIGINT}
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="DetailResultMap">
+    SELECT
+      p.id, p.name, p.create_date, p.is_deleted,
+      ic.id cate_id, ic.project_id, ic.name cate_name, ic.create_date cate_create_date, ic.is_deleted cate_is_deleted
+    FROM project p
+    LEFT JOIN interface_cate ic
+    ON p.id = ic.project_id
+    WHERE p.is_deleted=0
+    AND id = #{id,jdbcType=BIGINT}
   </select>
+
+  <select id="selectAllProject" resultMap="DetailResultMap">
+    SELECT
+      p.id, p.name, p.create_date, p.is_deleted,
+      ic.id cate_id, ic.project_id, ic.name cate_name, ic.create_date cate_create_date, ic.is_deleted cate_is_deleted
+    FROM project p
+    LEFT JOIN interface_cate ic
+    ON p.id = ic.project_id
+    WHERE p.is_deleted=0
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from project
     where id = #{id,jdbcType=BIGINT}

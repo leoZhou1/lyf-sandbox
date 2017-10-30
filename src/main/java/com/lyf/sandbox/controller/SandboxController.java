@@ -2,6 +2,7 @@ package com.lyf.sandbox.controller;
 
 import java.util.List;
 
+import com.lyf.sandbox.domain.Interface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,7 @@ public class SandboxController {
 	private InterfaceService interfaceService;
     @RequestMapping(value = "/sandbox", method = RequestMethod.GET)
     public String toSandbox(Model model) {
-    	List<InterfaceWithBLOBs> interfaceList = interfaceService.selectAllInterface();
+    	List<Interface> interfaceList = interfaceService.selectAllInterface();
     	model.addAttribute("interfaceList", interfaceList);
         return "sandbox";
     }

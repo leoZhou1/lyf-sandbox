@@ -8,20 +8,20 @@ import com.lyf.sandbox.domain.InterfaceWithBLOBs;
 public interface InterfaceMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(InterfaceWithBLOBs record);
+    int insert(Interface record);
 
-    int insertSelective(InterfaceWithBLOBs record);
+    int insertSelective(Interface record);
 
-    InterfaceWithBLOBs selectByPrimaryKey(Long id);
+    Interface selectByPrimaryKey(Long id);
     /**
      * 查询所有接口
      * @return
      */
-    List<InterfaceWithBLOBs> selectAllInterface();
+    List<Interface> selectAllInterface();
 
-    int updateByPrimaryKeySelective(InterfaceWithBLOBs record);
+    int updateByPrimaryKeySelective(Interface record);
 
-    int updateByPrimaryKeyWithBLOBs(InterfaceWithBLOBs record);
+    int updateByPrimaryKeyWithBLOBs(Interface record);
 
     int updateByPrimaryKey(Interface record);
 }
