@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyf.sandbox.dao.InterfaceMapper">
+  <resultMap id="BaseResultMap" type="com.lyf.sandbox.domain.Interface">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="interface_url" jdbcType="VARCHAR" property="interfaceUrl" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="project_id" jdbcType="BIGINT" property="projectId" />
+    <result column="interface_cate_id" jdbcType="BIGINT" property="interfaceCateId" />
+    <result column="can_invoke_productenv" jdbcType="BIT" property="canInvokeProductenv" />
+    <result column="header_params" jdbcType="VARCHAR" property="headerParams" />
+    <result column="http_method" jdbcType="BIT" property="httpMethod" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lyf.sandbox.domain.InterfaceWithBLOBs">
+    <result column="params" jdbcType="LONGVARCHAR" property="params" />
+    <result column="return_params" jdbcType="LONGVARCHAR" property="returnParams" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, interface_url, create_date, is_deleted, project_id, interface_cate_id, 
+    can_invoke_productenv, header_params, http_method
+  </sql>
+  <sql id="Blob_Column_List">
+    params, return_params
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from interface
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAllInterface" resultMap="ResultMapWithBLOBs">
+  	select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from interface
+    where is_deleted = 0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from interface
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lyf.sandbox.domain.InterfaceWithBLOBs">
+    insert into interface (id, name, interface_url, 
+      create_date, is_deleted, project_id, 
+      interface_cate_id, can_invoke_productenv, header_params, 
+      http_method, params, return_params
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{interfaceUrl,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=TINYINT}, #{projectId,jdbcType=BIGINT}, 
+      #{interfaceCateId,jdbcType=BIGINT}, #{canInvokeProductenv,jdbcType=BIT}, #{headerParams,jdbcType=VARCHAR}, 
+      #{httpMethod,jdbcType=BIT}, #{params,jdbcType=LONGVARCHAR}, #{returnParams,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lyf.sandbox.domain.InterfaceWithBLOBs">
+    insert into interface
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="interfaceUrl != null">
+        interface_url,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="interfaceCateId != null">
+        interface_cate_id,
+      </if>
+      <if test="canInvokeProductenv != null">
+        can_invoke_productenv,
+      </if>
+      <if test="headerParams != null">
+        header_params,
+      </if>
+      <if test="httpMethod != null">
+        http_method,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="returnParams != null">
+        return_params,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceUrl != null">
+        #{interfaceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="interfaceCateId != null">
+        #{interfaceCateId,jdbcType=BIGINT},
+      </if>
+      <if test="canInvokeProductenv != null">
+        #{canInvokeProductenv,jdbcType=BIT},
+      </if>
+      <if test="headerParams != null">
+        #{headerParams,jdbcType=VARCHAR},
+      </if>
+      <if test="httpMethod != null">
+        #{httpMethod,jdbcType=BIT},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="returnParams != null">
+        #{returnParams,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lyf.sandbox.domain.InterfaceWithBLOBs">
+    update interface
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceUrl != null">
+        interface_url = #{interfaceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="interfaceCateId != null">
+        interface_cate_id = #{interfaceCateId,jdbcType=BIGINT},
+      </if>
+      <if test="canInvokeProductenv != null">
+        can_invoke_productenv = #{canInvokeProductenv,jdbcType=BIT},
+      </if>
+      <if test="headerParams != null">
+        header_params = #{headerParams,jdbcType=VARCHAR},
+      </if>
+      <if test="httpMethod != null">
+        http_method = #{httpMethod,jdbcType=BIT},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="returnParams != null">
+        return_params = #{returnParams,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lyf.sandbox.domain.InterfaceWithBLOBs">
+    update interface
+    set name = #{name,jdbcType=VARCHAR},
+      interface_url = #{interfaceUrl,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      project_id = #{projectId,jdbcType=BIGINT},
+      interface_cate_id = #{interfaceCateId,jdbcType=BIGINT},
+      can_invoke_productenv = #{canInvokeProductenv,jdbcType=BIT},
+      header_params = #{headerParams,jdbcType=VARCHAR},
+      http_method = #{httpMethod,jdbcType=BIT},
+      params = #{params,jdbcType=LONGVARCHAR},
+      return_params = #{returnParams,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lyf.sandbox.domain.Interface">
+    update interface
+    set name = #{name,jdbcType=VARCHAR},
+      interface_url = #{interfaceUrl,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      project_id = #{projectId,jdbcType=BIGINT},
+      interface_cate_id = #{interfaceCateId,jdbcType=BIGINT},
+      can_invoke_productenv = #{canInvokeProductenv,jdbcType=BIT},
+      header_params = #{headerParams,jdbcType=VARCHAR},
+      http_method = #{httpMethod,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
