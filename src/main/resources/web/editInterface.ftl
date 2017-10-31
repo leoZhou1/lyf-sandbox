@@ -181,70 +181,101 @@
             $("form").submit();
         }
 
+        $(function () {
+            var paramStr = $("#params").val();
+            var params = paramStr.split("&");
+            for(var i=0; i<params.length; i++){
+                var attrbuteArray = params[i].split("=");
+                $("#paramsUl").append('<li class="ipt-args clearfix">\n' +
+                        '            <span class="key"><input type="text" value="'+attrbuteArray[0]+'">&nbsp;=</span>\n' +
+                        '            <span class="value">\n' +
+                        '\t\t\t<input name="'+attrbuteArray[0]+'" value="'+attrbuteArray[1]+'">\n' +
+                        '\t\t\t</span><input type="button" value="删除" onclick="deleteParam(this)"/>\n' +
+                        '        </li>')
+            }
+        });
+
+        function addParam(){
+            var option = '<li class="ipt-args clearfix">\n' +
+                    '            <span class="key"><input type="text" value="">&nbsp;=</span>\n' +
+                    '            <span class="value">\n' +
+                    '\t\t\t<input type="text" value="">\n' +
+                    '\t\t\t</span><input type="button" value="删除" onclick="deleteParam(this)"/>\n' +
+                    '        </li>';
+            $("#paramsUl").append(option);
+        }
+
+        function deleteParam(objEle){
+            var li = $(objEle).parent();
+            console.log(li.html());
+            li.remove();
+        }
+
+        function validateForm(){
+            var paramsStr = '';
+            $("#paramsUl").find("li").each(function (i,obj) {
+                var key = $(obj).find(".key").find("input").val();
+                var value = $(obj).find(".value").find("input").val();
+                paramsStr = paramsStr + "&" + key + "=" + value;
+            });
+            paramsStr = paramsStr.substr(1,paramsStr.length);
+            $("#params").val(paramsStr);
+            console.log(paramsStr);
+            $("form").submit();
+        }
+
     </script>
 </head>
 
 <body>
-<h1 style="text-align:center;">添加接口</h1>
-<form action="${request.contextPath}/interface/" target="unitarget" method="POST">
+<h1 style="text-align:center;">修改“${interface.name}”接口</h1>
+<form action="${request.contextPath}/interface/" method="POST">
+    <input type="hidden" name="id" value="${interface.id}"/>
 	<ul>
+        <li class=" ipt-args clearfix">
+            <span class="key">接口名称: </span>&nbsp;&nbsp;&nbsp;
+            <span class="value">
+            ${interface.name}
+            </span>
+        </li>
+        <li class=" ipt-args clearfix">
+            <span class="key">接口路径: </span>&nbsp;&nbsp;&nbsp;
+            <span class="value">
+            ${interface.interfaceUrl}
+            </span>
+        </li>
         <li class="ipt-args clearfix">
-            <span class="key">项目: </span>
-            <select name="projectId" id="project" onchange="change_project()">
-            	<option>请选择项目</option>
-                <#list projectList as pro>
-                    <option value="${pro.id}">${pro.name}</option>
-                </#list>
-            </select></span>
-        </li>
-        <li class=" ipt-args clearfix">
-            <span class="key">分类: </span>
+            <span class="key">项目: </span>&nbsp;&nbsp;&nbsp;
             <span class="value">
-            <select name="interfaceCateId" id="interfaceCate">
-            	<option>请选择分类</option>
-            </select></span>
-        </li>
-        <li class=" ipt-args clearfix">
-            <span class="key">httpMethod: </span>
-            <span class="value">
-            <select name="httpMethod" >
-            	<option value="1">GET</option>
-                <option value="2">POST</option>
-                <option value="3">POST/GET</option>
-            </select></span>
-        </li>
-        <li class=" ipt-args clearfix">
-            <span class="key">接口名称: </span>
-            <span class="value">
-                <input name="name" type="text" value="">
+                    ${interface.projectName}
             </span>
         </li>
         <li class=" ipt-args clearfix">
-            <span class="key">接口路径: </span>
+            <span class="key">分类: </span>&nbsp;&nbsp;&nbsp;
             <span class="value">
-                <input name="interfaceUrl" type="text" value="">
+            ${interface.interfaceCateName}
             </span>
         </li>
-        <#-- li class=" ipt-args clearfix">
-            <span class="key">接口参数: </span>
+        <li class=" ipt-args clearfix">
+            <span class="key">httpMethod: </span>&nbsp;&nbsp;&nbsp;
             <span class="value">
-                <textarea name="params" id="params" readonly cols="60" rows="5"></textarea>
+                <#if interface.httpMethod==0>
+                    GET
+                <#elseif interface.httpMethod==1>
+                POST
+                <#else >
+                    GET/POST
+                </#if>
             </span>
-        </li-->
+        </li>
     </ul>
-    <input type="hidden" value="" name="params" id="params"/>
+    <input type="hidden" value="${interface.params}" name="params" id="params"/>
     <h2>应用级参数：</h2>&nbsp;&nbsp;&nbsp;<input type="button" value="添加参数" onclick="addParam()"/><br/><br/>
     <ul id="paramsUl">
-        <li class="ipt-args clearfix">
-            <span class="key"><input type="text" value="">&nbsp;=</span>
-            <span class="value">
-			<input type="text" value="">
-			</span><input type="button" value="删除" onclick="deleteParam(this)"/>
-        </li>
+
     </ul>
     <input type="button" onclick="javascript:validateForm();" value="提交" style="width:400px;height:40px;background-color:gray;margin:20px 120px">
 
-    <#--<input type="button" onclick="alert(11213232);"/>-->
 </form>
 
 

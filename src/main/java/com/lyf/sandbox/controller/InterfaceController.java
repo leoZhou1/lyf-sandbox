@@ -30,8 +30,15 @@ public class InterfaceController {
 	@RequestMapping(value = "/interface/", method = RequestMethod.POST)
 	public ModelAndView saveInterface(Interface inter){
 		LOGGER.info("interface:{}",inter);
-		interfaceService.addInterface(inter);
+		interfaceService.saveInterface(inter);
 		return new ModelAndView("redirect:/sandbox");
+	}
+
+	@RequestMapping("/interface/toEdit/{id}")
+	public String toEdit(Model model,@PathVariable Long id){
+		Interface inter = interfaceService.getInterfaceById(id);
+		model.addAttribute("interface",inter);
+		return "editInterface";
 	}
 
 	@RequestMapping("/interface/toAdd")

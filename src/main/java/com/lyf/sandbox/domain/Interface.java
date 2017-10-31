@@ -15,7 +15,11 @@ public class Interface {
 
     private Long projectId;
 
+    private String projectName;
+
     private Long interfaceCateId;
+
+    private String interfaceCateName;
 
     private Integer canInvokeProductenv;
 
@@ -26,6 +30,10 @@ public class Interface {
     private String params;
 
     private String returnParams;
+
+    private Project project;
+
+    private InterfaceCate cate;
 
     public Long getId() {
         return id;
@@ -123,6 +131,38 @@ public class Interface {
 
     public void setReturnParams(String returnParams) {
         this.returnParams = returnParams;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getInterfaceCateName() {
+        return interfaceCateName;
+    }
+
+    public void setInterfaceCateName(String interfaceCateName) {
+        this.interfaceCateName = interfaceCateName;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public InterfaceCate getCate() {
+        return cate;
+    }
+
+    public void setCate(InterfaceCate cate) {
+        this.cate = cate;
     }
 
     @Override

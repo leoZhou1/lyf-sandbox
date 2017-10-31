@@ -8,7 +8,6 @@
             border: 20px solid #CCC;
             padding: 5px
         }
-
         form {
             margin-left: 30px
         }
@@ -88,20 +87,40 @@
 </head>
 
 <body>
+<div>
+
+    <input type="button" value="添加接口" onclick="toAdd();"/>
+</div>
 <h1 style="text-align:center;">服务端API单元测试-沙盒系统</h1>
-<form action="${request.contextPath}/api" target="unitarget" method="POST">
-	<input type="hidden" value="POST" name="httpMethodType"/>
-    <h2>系统级参数：</h2>
+<form action="${request.contextPath}/api" target="unitarget" method="POST" id="interfaceForm">
+	<input type="hidden" value="POST" name="httpMethodType" id="httpMethod"/>
     <ul>
         <li class="ipt-args clearfix">
             <span class="key">method: </span>
-            <select name="method" onchange="change_method()">
+            <span class="value">
+            <select name="method" id="method" onchange="change_method()">
             	<option>请选择方法</option>
-                <#list interfaceList as interface>
-                	<option value="${interface.interfaceUrl}" interfaceId="${interface.id}">${interface.interfaceUrl}</option>
-                </#list>
+            <#list interfaceList as interface>
+                <option value="${interface.id}">${interface.interfaceUrl}（${interface.name}）</option>
+            </#list>
             </select>
+            </span><input type="button" value="修改" onclick="toEdit();"/>
         </li>
+        <li class="ipt-args clearfix">
+            <span class="key">系统环境: </span>
+            <span class="value">
+            <select name="env" id="env">
+            	<option value=''>请选择系统环境</option>
+
+            </select>
+            </span>
+        </li>
+    </ul>
+    <h2>应用级参数：</h2>
+    <ul id="paramsUl">
+    </ul>
+    <#--<h2>系统级参数：</h2>
+    <ul>
         <li class=" ipt-args clearfix
                 ">
                 <span class="key">version: </span>
@@ -136,79 +155,59 @@
             <span class="key">明码: </span>
             <span class="value mingma">barcode=¤tarea=21&amp;method=cart.add&amp;number=2&amp;platform=android&amp;session=APP_afced5c799fa84a27da456bd3efe3b1624479980&amp;sku_id=1162&amp;token=b30d05a11bc5a4a3ccf2bd05a11bc5a4a3cce3ef6380faef400ef0981&amp;type=product&amp;use_point=0&amp;uuid=0983722&amp;version=420&amp;sign=2d2072ee0d3921cc185d04c1aa97a684</span>
         </li>
-    </ul>
+    </ul>-->
 
-    <h2>应用级参数：</h2>
-    <ul id="paramsUl">
-        <#-- li class="ipt-args clearfix">
-            <span class="key">sessionId: </span>
-            <span class="value">
-			<input name="sessionId" value="150892388825411">
-			</span>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">ut: </span>
-            <span class="value">
-                <input name="ut" value="">
-            </span>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">platformId: </span>
-            <span class="value">
-			<input name="platformId" value="3">
-			</span>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">areaCode: </span>
-            <span class="value">
-            <input name="areaCode" value="310101">
-            </span>
-        </li>
-        <li class=" ipt-args clearfix">
-            <span class="key">receiverId: </span>
-            <span class="value">
-            <input name="receiverId" value="">
-            </span>
-        </li>
-        <li class=" ipt-args clearfix">
-            <span class="key">v: </span>
-            <span class="value">
-            <input name="v" value="1.2">
-            </span>
-        </li -->
-    </ul>
-    <input type="submit" name="" value="提交" style="width:400px;height:40px;background-color:gray;margin:20px 120px">
+
+    <input type="button" onclick="submitValidate();" name="" value="提交" style="width:400px;height:40px;background-color:gray;margin:20px 120px">
 
 </form>
 
 <script>
+    
+    function submitValidate() {
+        var interfaceId = $("#method>option:selected").val();
+        var envId = $("#env>option:selected").val();
+        if(interfaceId==null || interfaceId==''){
+            alert("请选择方法");
+            return false;
+        }
+        var envId = $("#env>option:selected").val();
+        if(envId==null || envId==''){
+            alert("请选择系统环境");
+            return false;
+        }
+        console.log(interfaceId+'=============='+envId)
+        $("#id").val(interfaceId);
+        $("#interfaceForm").submit();
+    }
     $(function(){
         createMingMa();
     });
     
     function createMingMa(){
     	var paramStr = "";
-        $("form").find("input[type!=submit]").each(function (i,obj) {
+        $("form").find("input[type!=button]").each(function (i,obj) {
             $(obj).attr("name");
             paramStr = paramStr + "&"+$(obj).attr("name")+"="+$(obj).val();
         });
-        paramStr = paramStr.substr(1,paramStr.length)+"&"+$("select").attr("name")+"="+$("select>option:selected").text();
+        paramStr = paramStr.substr(1,paramStr.length);
         $(".mingma").html(paramStr);
     }
     
     function change_method(){
     	$("#paramsUl").html("");
-    	var option = $("select>option:selected");
-    	var method = option.text();
+    	$("#env").html("<option value=''>请选择系统环境</option>");
+    	var option = $("#method>option:selected");
+    	var method = option.val();
     	if(method!=null && method!=''){
-    		console.log("/interface/"+option.attr("interfaceId"));
-    		
+
     		$.ajax({
-    			url:webroot+"/interface/"+option.attr("interfaceId"),
+    			url:webroot+"/interface/"+option.val(),
     			type:"get",
     			dataType:"json",
     			success:function(data){
     				var paramStr = data.params;
+    				var projectEnvList = data.project.projectEnvList;
 	    			var params = paramStr.split("&");
 	    			for(var i=0; i<params.length; i++){
 	    				var attrbuteArray = params[i].split("=");
@@ -218,12 +217,32 @@
 									'<input name="'+attrbuteArray[0]+'" value="'+attrbuteArray[1]+'">'+
 									'</span></li>');
 	    			}
+	    			for(var i = 0; i<projectEnvList.length; i++){
+	    			    $("#env").append('<option value="'+projectEnvList[i].id+'">'+projectEnvList[i].envName+'</option>');
+                    }
+	    			var httpMethod = "GET";
+                    if(data.httpMethod==1){
+                        httpMethod="POST"
+                    }
+	    			$("#httpMethod").val(httpMethod);
 	    			createMingMa();
     			}
     		});
     	}
     }
 
+    function toEdit() {
+        var interfaceId = $("#method>option:selected").val();
+        console.log("methodId:"+interfaceId)
+        if(interfaceId!=null && interfaceId!=''){
+            window.location.href = "/interface/toEdit/"+interfaceId;
+        }else{
+            alert("请选择方法！");
+        }
+    }
+    function toAdd() {
+        window.location.href = "/interface/toAdd/";
+    }
 </script>
 </body>
 </html>

@@ -14,9 +14,10 @@ import com.lyf.sandbox.service.InterfaceService;
 
 @Controller
 public class SandboxController {
+
 	@Autowired
 	private InterfaceService interfaceService;
-    @RequestMapping(value = "/sandbox", method = RequestMethod.GET)
+    @RequestMapping(value = "/sandbox")
     public String toSandbox(Model model) {
     	List<Interface> interfaceList = interfaceService.selectAllInterface();
     	model.addAttribute("interfaceList", interfaceList);

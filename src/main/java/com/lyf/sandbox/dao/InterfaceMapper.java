@@ -13,6 +13,8 @@ public interface InterfaceMapper {
     int insertSelective(Interface record);
 
     Interface selectByPrimaryKey(Long id);
+
+    Interface selectInterfaceDetailById(Long id);
     /**
      * 查询所有接口
      * @return

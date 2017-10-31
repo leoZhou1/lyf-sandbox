@@ -14,6 +14,10 @@ public class Project {
     /** 分类集合 */
     private List<InterfaceCate> interfaceCateList;
 
+    private List<ProjectEnv> projectEnvList;
+
+    private List<ParamList> paramListList;
+
     public Long getId() {
         return id;
     }
@@ -44,5 +48,29 @@ public class Project {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public List<InterfaceCate> getInterfaceCateList() {
+        return interfaceCateList;
+    }
+
+    public void setInterfaceCateList(List<InterfaceCate> interfaceCateList) {
+        this.interfaceCateList = interfaceCateList;
+    }
+
+    public List<ProjectEnv> getProjectEnvList() {
+        return projectEnvList;
+    }
+
+    public void setProjectEnvList(List<ProjectEnv> projectEnvList) {
+        this.projectEnvList = projectEnvList;
+    }
+
+    public List<ParamList> getParamListList() {
+        return paramListList;
+    }
+
+    public void setParamListList(List<ParamList> paramListList) {
+        this.paramListList = paramListList;
     }
 }

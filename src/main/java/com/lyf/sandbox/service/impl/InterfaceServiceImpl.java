@@ -10,13 +10,16 @@ import org.springframework.stereotype.Service;
 import com.lyf.sandbox.dao.InterfaceMapper;
 import com.lyf.sandbox.domain.InterfaceWithBLOBs;
 import com.lyf.sandbox.service.InterfaceService;
+import org.springframework.util.StringUtils;
+
 @Service
 public class InterfaceServiceImpl implements InterfaceService {
 	@Autowired
 	private InterfaceMapper interfaceMapper;
 	
 	public Interface getInterfaceById(Long id){
-		return interfaceMapper.selectByPrimaryKey(id);
+//		return interfaceMapper.selectByPrimaryKey(id);
+		return interfaceMapper.selectInterfaceDetailById(id);
 	}
 	
 	@Override
@@ -24,8 +27,12 @@ public class InterfaceServiceImpl implements InterfaceService {
 		return interfaceMapper.selectAllInterface();
 	}
 
-	public void addInterface (Interface inter){
-		inter.setCreateDate(new Date());
-		interfaceMapper.insertSelective(inter);
+	public void saveInterface (Interface inter){
+		if(StringUtils.isEmpty(inter.getId())) {
+			inter.setCreateDate(new Date());
+			interfaceMapper.insertSelective(inter);
+		}else{
+			interfaceMapper.updateByPrimaryKeySelective(inter);
+		}
 	}
 }

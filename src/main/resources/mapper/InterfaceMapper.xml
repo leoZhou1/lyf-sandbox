@@ -14,31 +14,55 @@
     <result column="http_method" property="httpMethod" />
     <result column="params" jdbcType="LONGVARCHAR" property="params" />
     <result column="return_params" jdbcType="LONGVARCHAR" property="returnParams" />
+    <result column="ic_name" property="interfaceCateName"></result>
+    <result column="p_name" property="projectName"></result>
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lyf.sandbox.domain.InterfaceWithBLOBs">
-    <result column="params" jdbcType="LONGVARCHAR" property="params" />
-    <result column="return_params" jdbcType="LONGVARCHAR" property="returnParams" />
+  <resultMap id="detailInterfaceMap" type="com.lyf.sandbox.domain.Interface" extends="BaseResultMap">
+    <association property="project" javaType="com.lyf.sandbox.domain.Project">
+      <id column="p_id" jdbcType="BIGINT" property="id" />
+      <result column="p_name" jdbcType="VARCHAR" property="name" />
+      <collection property="projectEnvList" ofType="com.lyf.sandbox.domain.ProjectEnv">
+        <id column="evn_id" jdbcType="BIGINT" property="id" />
+        <result column="env_name" jdbcType="VARCHAR" property="envName" />
+        <result column="api_domain" jdbcType="VARCHAR" property="apiDomain" />
+      </collection>
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, interface_url, create_date, is_deleted, project_id, interface_cate_id, 
-    can_invoke_productenv, header_params, http_method
-  </sql>
-  <sql id="Blob_Column_List">
-    params, return_params
+    id, name, interface_url, create_date, is_deleted, project_id, interface_cate_id,
+    can_invoke_productenv, header_params, http_method, params, return_params
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from interface
-    where id = #{id,jdbcType=BIGINT}
+    select
+      i.id, i.name, i.interface_url, i.create_date, i.is_deleted, i.project_id, i.interface_cate_id,
+      i.can_invoke_productenv, i.header_params, i.http_method,i.params, i.return_params,
+      p.name p_name,ic.name ic_name
+    from interface i
+    left join project p
+    on p.id = i.project_id
+    left join interface_cate ic
+    on ic.id = i.interface_cate_id
+    where i.id = #{id,jdbcType=BIGINT}
   </select>
+
+  <select id="selectInterfaceDetailById" parameterType="java.lang.Long" resultMap="detailInterfaceMap">
+    select
+      i.id, i.name, i.interface_url, i.create_date, i.is_deleted, i.project_id, i.interface_cate_id,
+      i.can_invoke_productenv, i.header_params, i.http_method,i.params, i.return_params,
+      p.name p_name, p.id p_id, pe.id evn_id, pe.env_name, pe.api_domain, ic.name ic_name
+    from interface i
+    left join project p
+    on p.id = i.project_id
+    left join project_env pe
+    on pe.project_id = p.id
+    left join interface_cate ic
+    on ic.id = i.interface_cate_id
+    where i.id = #{id,jdbcType=BIGINT}
+  </select>
+
   <select id="selectAllInterface" resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from interface
     where is_deleted = 0
   </select>
@@ -137,7 +161,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lyf.sandbox.domain.InterfaceWithBLOBs">
+  <update id="updateByPrimaryKeySelective" parameterType="com.lyf.sandbox.domain.Interface">
     update interface
     <set>
       <if test="name != null">

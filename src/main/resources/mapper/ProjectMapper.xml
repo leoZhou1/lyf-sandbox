@@ -16,6 +16,16 @@
           <result column="cate_create_date" jdbcType="TIMESTAMP" property="createDate" />
           <result column="cate_is_deleted" jdbcType="BIT" property="isDeleted" />
       </collection>
+      <collection property="projectEnvList" ofType="com.lyf.sandbox.domain.ProjectEnv">
+        <id column="evn_id" jdbcType="BIGINT" property="id" />
+        <result column="env_name" jdbcType="VARCHAR" property="envName" />
+        <result column="api_domain" jdbcType="VARCHAR" property="apiDomain" />
+        <result column="api_ip" jdbcType="VARCHAR" property="apiIp" />
+      </collection>
+      <collection property="paramListList" ofType="com.lyf.sandbox.domain.ParamList">
+        <id column="param_id" jdbcType="BIGINT" property="id" />
+        <result column="column_name" jdbcType="VARCHAR" property="columnName" />
+      </collection>
   </resultMap>
 
   <sql id="Base_Column_List">
@@ -29,7 +39,7 @@
     LEFT JOIN interface_cate ic
     ON p.id = ic.project_id
     WHERE p.is_deleted=0
-    AND id = #{id,jdbcType=BIGINT}
+    AND p.id = #{id,jdbcType=BIGINT}
   </select>
 
   <select id="selectAllProject" resultMap="DetailResultMap">

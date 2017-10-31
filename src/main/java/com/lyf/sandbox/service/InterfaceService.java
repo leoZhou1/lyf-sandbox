@@ -8,5 +8,5 @@ public interface InterfaceService {
 
 	List<Interface> selectAllInterface();
 	public Interface getInterfaceById(Long id);
-	public void addInterface (Interface inter);
+	public void saveInterface (Interface inter);
 }

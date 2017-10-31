@@ -17,4 +17,8 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> getProjectList(){
         return projectMapper.selectAllProject();
     }
+
+    public Project getProjectById(Long id){
+        return projectMapper.selectByPrimaryKey(id);
+    }
 }

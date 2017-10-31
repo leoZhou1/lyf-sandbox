@@ -180,16 +180,25 @@
             console.log(paramsStr);
             $("form").submit();
         }
+        
+        function initValidate() {
+            $("#interfaceForm").validate({
+                rules: {
+
+                }
+            });
+        }
 
     </script>
 </head>
 
 <body>
 <h1 style="text-align:center;">添加接口</h1>
-<form action="${request.contextPath}/interface/" target="unitarget" method="POST">
+<form action="${request.contextPath}/interface/" id="interfaceForm" target="unitarget" method="POST">
 	<ul>
         <li class="ipt-args clearfix">
             <span class="key">项目: </span>
+            <span class="value">
             <select name="projectId" id="project" onchange="change_project()">
             	<option>请选择项目</option>
                 <#list projectList as pro>
@@ -208,9 +217,9 @@
             <span class="key">httpMethod: </span>
             <span class="value">
             <select name="httpMethod" >
-            	<option value="1">GET</option>
-                <option value="2">POST</option>
-                <option value="3">POST/GET</option>
+            	<option value="0">GET</option>
+                <option value="1">POST</option>
+                <option value="2">POST/GET</option>
             </select></span>
         </li>
         <li class=" ipt-args clearfix">
