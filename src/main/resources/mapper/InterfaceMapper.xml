@@ -92,7 +92,7 @@
     delete from interface
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.lyf.sandbox.domain.InterfaceWithBLOBs">
+  <insert id="insert" parameterType="com.lyf.sandbox.domain.Interface">
     insert into interface (id, name, interface_url, 
       create_date, is_deleted, project_id, 
       interface_cate_id, can_invoke_productenv, header_params, 
@@ -104,7 +104,7 @@
       #{httpMethod}, #{params,jdbcType=LONGVARCHAR}, #{returnParams,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.lyf.sandbox.domain.InterfaceWithBLOBs">
+  <insert id="insertSelective" parameterType="com.lyf.sandbox.domain.Interface">
     insert into interface
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -222,7 +222,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lyf.sandbox.domain.InterfaceWithBLOBs">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lyf.sandbox.domain.Interface">
     update interface
     set name = #{name,jdbcType=VARCHAR},
       interface_url = #{interfaceUrl,jdbcType=VARCHAR},

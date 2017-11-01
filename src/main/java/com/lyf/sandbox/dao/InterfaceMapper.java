@@ -3,7 +3,6 @@ package com.lyf.sandbox.dao;
 import java.util.List;
 
 import com.lyf.sandbox.domain.Interface;
-import com.lyf.sandbox.domain.InterfaceWithBLOBs;
 
 public interface InterfaceMapper {
     int deleteByPrimaryKey(Long id);

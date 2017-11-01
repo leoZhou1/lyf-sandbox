@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lyf.sandbox.dao.InterfaceMapper;
-import com.lyf.sandbox.domain.InterfaceWithBLOBs;
 import com.lyf.sandbox.service.InterfaceService;
 import org.springframework.util.StringUtils;
 
