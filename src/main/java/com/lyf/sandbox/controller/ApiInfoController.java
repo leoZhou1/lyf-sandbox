@@ -34,13 +34,15 @@ public class ApiInfoController {
 
     @RequestMapping(value = "/api", method = RequestMethod.POST)
     @ResponseBody
-    public String apiRequest(Model model,HttpServletRequest request) {
+    public String apiRequest(Model model,HttpServletRequest request) throws Exception{
     	MultiValueMap<String, String> paramMap = getParamMap(request);
         Long apiId = request.getParameter("method")!=null ? Long.parseLong(request.getParameter("method")) : null;
         Long envId = request.getParameter("env")!=null ? Long.parseLong(request.getParameter("env")) : null;
         String result = "";
         if(!StringUtils.isEmpty(apiId) && !StringUtils.isEmpty(envId)) {
-            result = apiInvokeService.exchange(paramMap,apiId,envId);
+            result = apiInvokeService.exchange(getPairList(request),apiId,envId);
+            LOGGER.info("httpClient result:{}",result);
+//            result = apiInvokeService.exchange(paramMap,apiId,envId);
 //        	result = apiInvokeService.exchange(paramMap,apiId,httpMethodType);
 //            model.addAttribute("result",result);
             LOGGER.info("result:{}",result);

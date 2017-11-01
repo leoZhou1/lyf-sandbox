@@ -34,6 +34,12 @@ public class InterfaceController {
 		return new ModelAndView("redirect:/sandbox");
 	}
 
+	@ResponseBody
+	@RequestMapping("/interface/getBySelective")
+	public List<Interface> getInterface(Interface inter){
+		return interfaceService.selectBySelective(inter);
+	}
+
 	@RequestMapping("/interface/toEdit/{id}")
 	public String toEdit(Model model,@PathVariable Long id){
 		Interface inter = interfaceService.getInterfaceById(id);

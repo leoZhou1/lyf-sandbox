@@ -62,7 +62,7 @@ public class HttpClientUtil {
         }  
     }
 
-    public static String httpPostWithJSON(String url,List<BasicNameValuePair> pairList) throws Exception {
+    public static String post(String url,List<BasicNameValuePair> pairList) throws Exception {
 
         HttpPost httpPost = new HttpPost(url);
         CloseableHttpClient client = HttpClients.createDefault();

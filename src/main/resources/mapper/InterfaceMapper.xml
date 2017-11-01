@@ -59,6 +59,28 @@
     on ic.id = i.interface_cate_id
     where i.id = #{id,jdbcType=BIGINT}
   </select>
+  
+  <select id="selectBySelective" resultMap="detailInterfaceMap" parameterType="com.lyf.sandbox.domain.Interface">
+    select
+      i.id, i.name, i.interface_url, i.create_date, i.is_deleted, i.project_id, i.interface_cate_id,
+      i.can_invoke_productenv, i.header_params, i.http_method,i.params, i.return_params,
+      p.name p_name, p.id p_id, pe.id evn_id, pe.env_name, pe.api_domain, ic.name ic_name
+    from interface i
+    left join project p
+    on p.id = i.project_id
+    left join project_env pe
+    on pe.project_id = p.id
+    left join interface_cate ic
+    on ic.id = i.interface_cate_id
+    <where>
+      <if test="projectId!=null">
+        i.project_id = ${projectId}
+      </if>
+      <if test="interfaceCateId!=null">
+        AND i.interface_cate_id = ${interfaceCateId}
+      </if>
+    </where>
+  </select>
 
   <select id="selectAllInterface" resultMap="BaseResultMap">
   	select 

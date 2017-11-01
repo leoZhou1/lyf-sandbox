@@ -15,6 +15,8 @@ public interface InterfaceMapper {
     Interface selectByPrimaryKey(Long id);
 
     Interface selectInterfaceDetailById(Long id);
+
+    List<Interface> selectBySelective(Interface record);
     /**
      * 查询所有接口
      * @return

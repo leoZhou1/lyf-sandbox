@@ -53,9 +53,26 @@ public class ApiInvokeServiceImpl implements ApiInvokeService {
 		return response.getBody();
 	}
 
-	public String exchange(List<BasicNameValuePair> pairList, Long id, Long env_id){
-
-		return null;
+	public String exchange(List<BasicNameValuePair> pairList, Long id, Long env_id) throws Exception {
+		String httpMethodType = null;
+		Interface inter = interfaceMapper.selectByPrimaryKey(id);
+		ProjectEnv projectEnv = projectEnvMapper.selectByPrimaryKey(env_id);
+		String apiDomain = projectEnv.getApiDomain();
+		String interfaceUrl = inter.getInterfaceUrl();
+		int methodType = inter.getHttpMethod();
+		switch (methodType){
+			case 0:
+				httpMethodType = "GET";
+				break;
+			case 1:
+				httpMethodType = "POST";
+				break;
+			default:
+				httpMethodType = "GET";
+		}
+		String url = apiDomain + interfaceUrl;
+		String result = HttpClientUtil.post(url,pairList);
+		return result;
 	}
 
 	public String exchange(MultiValueMap<String, String> paramMap, Long id, Long env_id) {

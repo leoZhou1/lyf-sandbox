@@ -92,20 +92,6 @@
     <script type="text/javascript">
         var webroot = '${request.contextPath}';
 
-        $(function(){
-            createMingMa();
-        });
-
-        function createMingMa(){
-            var paramStr = "";
-            $("form").find("input[type!=submit]").each(function (i,obj) {
-                $(obj).attr("name");
-                paramStr = paramStr + "&"+$(obj).attr("name")+"="+$(obj).val();
-            });
-            paramStr = paramStr.substr(1,paramStr.length)+"&"+$("select").attr("name")+"="+$("select>option:selected").text();
-            $(".mingma").html(paramStr);
-        }
-
         function change_project(){
             $("#paramsUl").html("");
             var option = $("select>option:selected");
@@ -128,7 +114,6 @@
                                     '<input name="'+attrbuteArray[0]+'" value="'+attrbuteArray[1]+'">'+
                                     '</span></li>');
                         }
-                        createMingMa();
                     }
                 });
             }
@@ -194,7 +179,7 @@
 
 <body>
 <h1 style="text-align:center;">添加接口</h1>
-<form action="${request.contextPath}/interface/" id="interfaceForm" target="unitarget" method="POST">
+<form action="${request.contextPath}/interface/" id="interfaceForm" method="POST">
 	<ul>
         <li class="ipt-args clearfix">
             <span class="key">项目: </span>
@@ -219,7 +204,7 @@
             <select name="httpMethod" >
             	<option value="0">GET</option>
                 <option value="1">POST</option>
-                <option value="2">POST/GET</option>
+                <#--<option value="2">POST/GET</option>-->
             </select></span>
         </li>
         <li class=" ipt-args clearfix">
@@ -234,12 +219,6 @@
                 <input name="interfaceUrl" type="text" value="">
             </span>
         </li>
-        <#-- li class=" ipt-args clearfix">
-            <span class="key">接口参数: </span>
-            <span class="value">
-                <textarea name="params" id="params" readonly cols="60" rows="5"></textarea>
-            </span>
-        </li-->
     </ul>
     <input type="hidden" value="" name="params" id="params"/>
     <h2>应用级参数：</h2>&nbsp;&nbsp;&nbsp;<input type="button" value="添加参数" onclick="addParam()"/><br/><br/>
@@ -253,7 +232,6 @@
     </ul>
     <input type="button" onclick="javascript:validateForm();" value="提交" style="width:400px;height:40px;background-color:gray;margin:20px 120px">
 
-    <#--<input type="button" onclick="alert(11213232);"/>-->
 </form>
 
 

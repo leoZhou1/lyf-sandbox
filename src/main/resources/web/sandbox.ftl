@@ -87,83 +87,131 @@
 </head>
 
 <body>
-<div>
+<h1 style="text-align:center;">服务端API单元测试-沙盒系统</h1>
+<div style="height: 40px;">
 
     <input type="button" value="添加接口" onclick="toAdd();"/>
 </div>
-<h1 style="text-align:center;">服务端API单元测试-沙盒系统</h1>
-<form action="${request.contextPath}/api" target="unitarget" method="POST" id="interfaceForm">
-	<input type="hidden" value="POST" name="httpMethodType" id="httpMethod"/>
-    <ul>
-        <li class="ipt-args clearfix">
-            <span class="key">method: </span>
-            <span class="value">
-            <select name="method" id="method" onchange="change_method()">
-            	<option>请选择方法</option>
-            <#list interfaceList as interface>
-                <option value="${interface.id}">${interface.interfaceUrl}（${interface.name}）</option>
+<div style="width: 150px;float:left;">
+    <#list projectList as project>
+        <ul>
+            <br/>
+            <b style="margin: 3 10px;">
+                <a href="javascript:void(0);" onclick="getInterfaceList(${project.id},null)">${project.name}</a>
+            </b>
+            <#list project.interfaceCateList as cate>
+                <li class="ipt-args clearfix" style="margin:5 30px;">
+                    <a href="javascript:void(0);" onclick="getInterfaceList(null,${cate.id})">${cate.name}</a>
+                </li>
             </#list>
-            </select>
-            </span><input type="button" value="修改" onclick="toEdit();"/>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">系统环境: </span>
-            <span class="value">
-            <select name="env" id="env">
-            	<option value=''>请选择系统环境</option>
+        </ul>
 
-            </select>
-            </span>
-        </li>
-    </ul>
-    <h2>应用级参数：</h2>
-    <ul id="paramsUl">
-    </ul>
-    <#--<h2>系统级参数：</h2>
-    <ul>
-        <li class=" ipt-args clearfix
-                ">
-                <span class="key">version: </span>
-                <span class="value"><input name="version" value="420"></span>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">platform: </span>
-            <span class="value"><input name="platform" value="android"></span>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">token: </span>
-            <span class="value"><input name="token"
-                                       value="b30d05a11bc5a4a3ccf2bd05a11bc5a4a3cce3ef6380faef400ef0981"></span>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">uuid: </span>
-            <span class="value"><input name="uuid" value="0983722"></span>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">sign: </span>
-            <span class="value"><input name="sign" value="2d2072ee0d3921cc185d04c1aa97a684"></span>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">session: </span>
-            <span class="value"><input name="session" value="APP_afced5c799fa84a27da456bd3efe3b1624479980"></span>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">currentarea: </span>
-            <span class="value"><input name="currentarea" value="21"></span>
-        </li>
-        <li class="ipt-args clearfix">
-            <span class="key">明码: </span>
-            <span class="value mingma">barcode=¤tarea=21&amp;method=cart.add&amp;number=2&amp;platform=android&amp;session=APP_afced5c799fa84a27da456bd3efe3b1624479980&amp;sku_id=1162&amp;token=b30d05a11bc5a4a3ccf2bd05a11bc5a4a3cce3ef6380faef400ef0981&amp;type=product&amp;use_point=0&amp;uuid=0983722&amp;version=420&amp;sign=2d2072ee0d3921cc185d04c1aa97a684</span>
-        </li>
-    </ul>-->
+    </#list>
+
+</div>
+<div style="width: 800px;float:left;">
+
+    <form action="${request.contextPath}/api" target="unitarget" method="POST" id="interfaceForm">
+        <input type="hidden" value="POST" name="httpMethodType" id="httpMethod"/>
+        <ul>
+            <li class="ipt-args clearfix">
+                <span class="key">method: </span>
+                <span class="value">
+                <select name="method" id="method" onchange="change_method()">
+                <#--<#list interfaceList as interface>
+                    <option value="${interface.id}">${interface.interfaceUrl}（${interface.name}）</option>
+                </#list>-->
+                </select>
+                </span><input type="button" value="修改" onclick="toEdit();"/>
+            </li>
+            <li class="ipt-args clearfix">
+                <span class="key">系统环境: </span>
+                <span class="value">
+                <select name="env" id="env">
+                    <option value=''>请选择系统环境</option>
+
+                </select>
+                </span>
+            </li>
+        </ul>
+        <h2>应用级参数：</h2>
+        <ul id="paramsUl">
+        </ul>
+        <#--<h2>系统级参数：</h2>
+        <ul>
+            <li class=" ipt-args clearfix
+                    ">
+                    <span class="key">version: </span>
+                    <span class="value"><input name="version" value="420"></span>
+            </li>
+            <li class="ipt-args clearfix">
+                <span class="key">platform: </span>
+                <span class="value"><input name="platform" value="android"></span>
+            </li>
+            <li class="ipt-args clearfix">
+                <span class="key">token: </span>
+                <span class="value"><input name="token"
+                                           value="b30d05a11bc5a4a3ccf2bd05a11bc5a4a3cce3ef6380faef400ef0981"></span>
+            </li>
+            <li class="ipt-args clearfix">
+                <span class="key">uuid: </span>
+                <span class="value"><input name="uuid" value="0983722"></span>
+            </li>
+            <li class="ipt-args clearfix">
+                <span class="key">sign: </span>
+                <span class="value"><input name="sign" value="2d2072ee0d3921cc185d04c1aa97a684"></span>
+            </li>
+            <li class="ipt-args clearfix">
+                <span class="key">session: </span>
+                <span class="value"><input name="session" value="APP_afced5c799fa84a27da456bd3efe3b1624479980"></span>
+            </li>
+            <li class="ipt-args clearfix">
+                <span class="key">currentarea: </span>
+                <span class="value"><input name="currentarea" value="21"></span>
+            </li>
+            <li class="ipt-args clearfix">
+                <span class="key">明码: </span>
+                <span class="value mingma">barcode=¤tarea=21&amp;method=cart.add&amp;number=2&amp;platform=android&amp;session=APP_afced5c799fa84a27da456bd3efe3b1624479980&amp;sku_id=1162&amp;token=b30d05a11bc5a4a3ccf2bd05a11bc5a4a3cce3ef6380faef400ef0981&amp;type=product&amp;use_point=0&amp;uuid=0983722&amp;version=420&amp;sign=2d2072ee0d3921cc185d04c1aa97a684</span>
+            </li>
+        </ul>-->
 
 
-    <input type="button" onclick="submitValidate();" name="" value="提交" style="width:400px;height:40px;background-color:gray;margin:20px 120px">
+        <input type="button" onclick="submitValidate();" name="" value="提交" style="width:400px;height:40px;background-color:gray;margin:20px 120px">
 
-</form>
-
+    </form>
+</div>
 <script>
-    
+    function getInterfaceList(projectId,cateId) {
+        $("#method").html("");
+        $("#env").html("");
+        var url = webroot + "/interface/getBySelective";
+        var data;
+        if(cateId!=null && cateId!=''){
+            data = {"interfaceCateId":cateId};
+        }else{
+            data = {"projectId":projectId};
+        }
+        $.ajax({
+            url:url,
+            data:data,
+            type:"GET",
+            dataType:"json",
+            success:function (data) {
+                if(data.length>0){
+                    for(var i = 0; i<data.length; i++){
+                        $("#method").append("<option value='"+data[i].id+"'>"+data[i].interfaceUrl+"（"+data[i].name+"）"+"</option>")
+                    }
+
+                    for(var i = 0; i<data[0].project.projectEnvList.length; i++){
+                        $("#env").append('<option value="'+data[0].project.projectEnvList[i].id+'">'+data[0].project.projectEnvList[i].envName+'</option>');
+                    }
+                    change_method();
+                }else{
+                    $("#paramsUl").html("");
+                }
+            }
+        });
+    }
     function submitValidate() {
         var interfaceId = $("#method>option:selected").val();
         var envId = $("#env>option:selected").val();
@@ -196,7 +244,7 @@
     
     function change_method(){
     	$("#paramsUl").html("");
-    	$("#env").html("<option value=''>请选择系统环境</option>");
+//    	$("#env").html("<option value=''>请选择系统环境</option>");
     	var option = $("#method>option:selected");
     	var method = option.val();
     	if(method!=null && method!=''){
@@ -217,9 +265,9 @@
 									'<input name="'+attrbuteArray[0]+'" value="'+attrbuteArray[1]+'">'+
 									'</span></li>');
 	    			}
-	    			for(var i = 0; i<projectEnvList.length; i++){
+	    			/*for(var i = 0; i<projectEnvList.length; i++){
 	    			    $("#env").append('<option value="'+projectEnvList[i].id+'">'+projectEnvList[i].envName+'</option>');
-                    }
+                    }*/
 	    			var httpMethod = "GET";
                     if(data.httpMethod==1){
                         httpMethod="POST"

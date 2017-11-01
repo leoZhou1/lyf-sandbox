@@ -16,7 +16,12 @@ import org.springframework.util.StringUtils;
 public class InterfaceServiceImpl implements InterfaceService {
 	@Autowired
 	private InterfaceMapper interfaceMapper;
-	
+
+	public List<Interface> selectBySelective(Interface inter){
+		return interfaceMapper.selectBySelective(inter);
+	}
+
+	@Override
 	public Interface getInterfaceById(Long id){
 //		return interfaceMapper.selectByPrimaryKey(id);
 		return interfaceMapper.selectInterfaceDetailById(id);
@@ -27,6 +32,7 @@ public class InterfaceServiceImpl implements InterfaceService {
 		return interfaceMapper.selectAllInterface();
 	}
 
+	@Override
 	public void saveInterface (Interface inter){
 		if(StringUtils.isEmpty(inter.getId())) {
 			inter.setCreateDate(new Date());

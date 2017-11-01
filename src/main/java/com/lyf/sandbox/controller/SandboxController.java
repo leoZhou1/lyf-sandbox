@@ -3,6 +3,8 @@ package com.lyf.sandbox.controller;
 import java.util.List;
 
 import com.lyf.sandbox.domain.Interface;
+import com.lyf.sandbox.domain.Project;
+import com.lyf.sandbox.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +19,13 @@ public class SandboxController {
 
 	@Autowired
 	private InterfaceService interfaceService;
+	@Autowired
+	private ProjectService projectService;
+
     @RequestMapping(value = "/sandbox")
     public String toSandbox(Model model) {
-    	List<Interface> interfaceList = interfaceService.selectAllInterface();
-    	model.addAttribute("interfaceList", interfaceList);
+        List<Project> list = projectService.getProjectList();
+        model.addAttribute("projectList",list);
         return "sandbox";
     }
 }
